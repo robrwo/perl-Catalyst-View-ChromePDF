@@ -1,0 +1,29 @@
+use strict;
+use warnings;
+
+use Test::More;
+use Test::Deep;
+
+use FindBin qw/ $Bin /;
+
+use File::Temp qw/ tempfile /;
+use File::Which qw/ which /;
+use HTTP::Request::Common;
+use HTTP::Status qw/ :constants /;
+
+use lib 't/lib';
+use Catalyst::Test 'App';
+
+my ($res, $c) = ctx_request( GET '/' );
+
+is $res->code, HTTP_OK, 'status code';
+
+is $res->content_type, 'application/pdf', 'content_type';
+
+ok my $data = $res->decoded_content, 'decoded_content';
+
+cmp_deeply $c->log->msgs, [ ( { level => 'debug', message => ignore() } ) x 2 ], 'log messages from ChromePDF';
+
+note(explain $c->log->msgs);
+
+done_testing;
