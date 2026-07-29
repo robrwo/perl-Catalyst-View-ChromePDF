@@ -21,6 +21,12 @@ Log::Log4perl->easy_init($WARN);
 
 =attr tmpdir
 
+This is the temporary directory.
+
+It defaults to the L<File::Spec> C<tmpdir>.
+
+See L</SECURITY CONSIDERATIONS> below.
+
 =cut
 
 has tmpdir => (
@@ -35,6 +41,8 @@ sub _build_tmpdir($self) {
 }
 
 =attr tt_view
+
+This is the template view. It defaults to "TT" for L<Catalyst::View::TT>.
 
 =cut
 
@@ -60,6 +68,10 @@ has stash_key => (
 
 =attr chrome_args
 
+This contains additional arguments to pass to the constructor of L<WWW::Mechanize::Chrome>.
+
+This will be ignored if a separate L</mech> argument is passed in the stash.
+
 =cut
 
 has chrome_args => (
@@ -74,20 +86,24 @@ This is the paper format. It defaults to C<undef>.
 
 =attr page_size
 
-This is an alias for L</format>.
+This is an alias for L</format>, for compatability with L<Catalyst::View::Wkhtmltopdf>.
 
 =cut
 
 my $PageSizes = Enum [ keys %WWW::Mechanize::Chrome::PaperFormats ];
 
-has page_size => (
+has format => (
     is         => 'ro',
     isa        => $PageSizes,
-    alias      => 'format',
+    alias      => 'page_size',
     default    => 'a4',
 );
 
 =attr orientation
+
+The is the orientation, it defaults to "portrait".
+
+Acceptable values are "portrait" or "landscape".
 
 =cut
 
@@ -101,6 +117,10 @@ has orientation => (
 
 =attr disposition
 
+This is the download dispostion. It defaults to "inline".
+
+Acceptable values are "inline" or "attachment".
+
 =cut
 
 my $Dispositions = Enum[ qw( inline attachment ) ];
@@ -113,6 +133,8 @@ has 'disposition' => (
 
 =attr filename
 
+This is the attachment filename. It defaults to F<output.pdf>.
+
 =cut
 
 has 'filename' => (
@@ -122,6 +144,7 @@ has 'filename' => (
 );
 
 =method process
+
 
 =cut
 
@@ -234,13 +257,13 @@ This is the format or paper size.
 
 =arg page_size
 
-This is the same as L</format>, but is added for compatability with L<Catalyst::View::Wkhtmltopodf>.
+This is the same as C<format>, but is added for compatability with L<Catalyst::View::Wkhtmltopodf>.
 
 =arg paper_width
 
 =arg paper_height
 
-Specify the paper with and height as an alternative to specifying the L</format>.
+Specify the paper width and height as an alternative to specifying the L</format>.
 
 These are in inches, as that is what L<WWW::Mechanize::Chrome> uses.
 
@@ -274,14 +297,47 @@ sub _build_pdf_options( $self, $c, $args ) {
 
 =item *
 
+There is no C<command> attribute.
+
+Instead, you need to specify the C<launch_exe> path in L</chrome_args>, e.g.
+
+    <View::ChromePDF>
+      <chrome_args>
+        launch_exe /opt/chrome/bin/chrome
+      </chrome_args>
+    </View::ChromePDF>
+
+Additional command-line switches should be specified using C<launch_arg>.
+
+=item *
+
 C<orientation> must be lowercase, e.g. "portrait" instead of "Portrait".
 
 =item *
 
 L</stash_key> has a differemt default.
 
+=item *
+
+Margins, DPI, and image quality options are not supported.
+
+Some of these options may be added in the future.
+
 =back
 
 =cut
 
 __PACKAGE__->meta->make_immutable();
+
+=head1 SECURITY CONSIDERATIONS
+
+=head2 Temporary Files
+
+Temporary HTML and PDF files are saved in L</tmpdir>.
+They may be left in the directory on failure.
+
+When returning a filehandle instead of the PDF content, the PDF files are not removed when L</send_filehandle> is true.
+
+A separate process will need to purge files, to prevent them from filling the disk, as well as to remove sensitive information.
+
+=cut
