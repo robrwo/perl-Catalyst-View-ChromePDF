@@ -87,6 +87,12 @@ sub render( $self, $c, $args ) {
 
     if ( $res->is_success ) {
 
+        my $pdf = $mech->content_as_pdf;
+
+        $mech->close unless $args->{mech};
+
+        if ( $args->{send_filehandle} ) {
+
         my $out = Path::Tiny->tempfile(
             DIR    => $self->tmpdir,
             SUFFIX => ".pdf",
@@ -94,11 +100,16 @@ sub render( $self, $c, $args ) {
         );
 
         $c->log->debug("Saving the PDF to ${out}");
-        $out->spew_raw( $mech->content_as_pdf );
-
-        $mech->close unless $args->{mech};
+        $out->spew_raw($pdf);
 
         return IO::File::WithPath->new( $out, '<:raw' );
+
+        }
+        else {
+
+            return $pdf;
+
+        }
 
     }
 
