@@ -8,7 +8,9 @@ extends 'Catalyst::View';
 use File::Spec;
 use IO::File::WithPath;
 use Log::Log4perl ':easy';
+use MooseX::Aliases;
 use Path::Tiny;
+use Types::Common qw( Enum );
 use WWW::Mechanize::Chrome;
 
 use namespace::autoclean;
@@ -36,8 +38,7 @@ sub _build_tmpdir($self) {
 =cut
 
 has tt_view => (
-    is      => 'rw',
-    lazy    => 1,
+    is      => 'ro',
     default => 'TT',
 );
 
@@ -50,7 +51,7 @@ Note: for L<Catalyst::View::Wkhtmltopdf> compatability, use "wk".
 =cut
 
 has stash_key => (
-    is      => 'rw',
+    is      => 'ro',
     lazy    => 1,
     default => 'pdf',
 );
@@ -62,6 +63,37 @@ has stash_key => (
 has chrome_args => (
     is      => 'ro',
     default => sub($self) { {} },
+);
+
+=attr format
+
+This is the paper format. It defaults to C<undef>.
+
+=attr page_size
+
+This is an alias for L</format>.
+
+=cut
+
+my $PageSizes = Enum [ keys %WWW::Mechanize::Chrome::PaperFormats ];
+
+has page_size => (
+    is         => 'ro',
+    isa        => $PageSizes,
+    alias      => 'format',
+    default    => 'a4',
+);
+
+=attr orientation
+
+=cut
+
+my $Orientations = Enum [qw( portrait landscape )];
+
+has orientation => (
+    is         => 'ro',
+    isa        => $Orientations,
+    default    => 'portrait',
 );
 
 =method process
@@ -169,7 +201,7 @@ sub render( $self, $c, $args ) {
 
 =arg format
 
-This is the format or page size.
+This is the format or paper size.
 
 =arg page_size
 
@@ -183,47 +215,43 @@ Specify the paper with and height as an alternative to specifying the L</format>
 
 These are in inches, as that is what L<WWW::Mechanize::Chrome> uses.
 
+=arg orientation
+
 =cut
 
 sub _build_pdf_options( $self, $c, $args ) {
 
-    my %opts;
+    my $size = $PageSizes->assert_return( $args->{page_size} // $args->{format} // $self->format );
+    my ( $width, $height ) = map { $WWW::Mechanize::Chrome::PaperFormats{$size}{$_} } qw( width height );
 
-    # TODO: access %WWW::Mechanize::Chrome::PaperFormats directly, and switch the width and height if the orientation is
-    # "Landscape" instead of "Portrait"
+    my $orientation = $Orientations->assert_return( $args->{orientation} // $self->orientation );
+    if ( $orientation eq "landscape" ) {
+        ( $width, $height ) = ( $height, $width );
+    }
 
-    if ( $args->{page_size} ) { # for compatability with Catalyst::View::Wkhtmltopdf
-        $opts{format} = $args->{page_size};
-    }
-    elsif ( $args->{format} ) {
-        $opts{format} = $args->{format};
-    }
-    elsif ( $args->{paper_width} && $args->{paper_height} ) {
-        $opts{paperWidth}  = $args->{paper_width};
-        $opts{paperHeight} = $args->{paper_height};
-    }
+    my %opts = (
+        paperWidth  => $args->{paper_width}  // $width,
+        paperHeight => $args->{paper_height} // $height,
+    );
 
     return %opts;
 }
 
 =head1 COMPATABILITY
 
-=head2 Catalyst::View::Wkhtmltopdf
-
-There are some differences with L<Catalyst::View::Wkhtmltopdf>:
+=head2 Differences from Catalyst::View::Wkhtmltopdf
 
 =over 4
 
 =item *
 
-C<orientation> is not supported.
+C<orientation> must be lowercase, e.g. "portrait" instead of "Portrait".
 
 =item *
 
-L</stash_key> has a different default.
+L</stash_key> has a differemt default.
 
 =back
-
 
 =cut
 
