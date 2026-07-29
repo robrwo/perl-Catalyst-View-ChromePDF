@@ -152,13 +152,9 @@ sub render( $self, $c, $args ) {
 
             }
 
-            $mech->close unless $args->{mech};
-
             return $res;
 
         }
-
-        $mech->close unless $args->{mech};
 
     }
     catch ($e) {
