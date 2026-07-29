@@ -10,7 +10,7 @@ use IO::File::WithPath;
 use Log::Log4perl ':easy';
 use MooseX::Aliases;
 use Path::Tiny;
-use Types::Common qw( Enum );
+use Types::Common qw( Enum NonEmptySimpleStr );
 use WWW::Mechanize::Chrome;
 
 use namespace::autoclean;
@@ -96,6 +96,28 @@ has orientation => (
     default    => 'portrait',
 );
 
+=attr disposition
+
+=cut
+
+my $Dispositions = Enum[ qw( inline attachment ) ];
+
+has 'disposition' => (
+    is      => 'rw',
+    isa     => $Dispositions,
+    default => 'inline',
+);
+
+=attr filename
+
+=cut
+
+has 'filename' => (
+    is      => 'rw',
+    isa     => NonEmptySimpleStr,
+    default => 'output.pdf',
+);
+
 =method process
 
 =cut
@@ -106,7 +128,11 @@ sub process( $self, $c ) {
 
     $c->res->body( $self->render( $c, $args // { } ) );
 
+    my $disposition = $Dispositions->assert_return( $args->{disposition} // $self->disposition );
+    my $filename    = $args->{filename} // $self->filename;
+
     $c->res->header(
+        "Content-Disposition" => "${disposition}; filename*=UTF-8''${filename}",
         "Content-Type" => "application/pdf",
     );
 
