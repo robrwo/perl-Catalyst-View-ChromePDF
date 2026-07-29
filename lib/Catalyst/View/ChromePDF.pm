@@ -76,7 +76,9 @@ sub process( $self, $c ) {
 
     $c->res->header(
         "Content-Type" => "application/pdf",
-        );
+    );
+
+    return 1;
 }
 
 =method render
