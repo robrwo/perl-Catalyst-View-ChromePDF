@@ -194,4 +194,25 @@ sub _build_pdf_options( $self, $c, $args ) {
     return %opts;
 }
 
+=head1 COMPATABILITY
+
+=head2 Catalyst::View::Wkhtmltopdf
+
+There are some differences with L<Catalyst::View::Wkhtmltopdf>:
+
+=over 4
+
+=item *
+
+C<orientation> is not supported.
+
+=item *
+
+L</stash_key> has a different default.
+
+=back
+
+
+=cut
+
 __PACKAGE__->meta->make_immutable();
