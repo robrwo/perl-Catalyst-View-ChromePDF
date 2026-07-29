@@ -185,11 +185,16 @@ This is the same as L</format>, but is added for compatability with L<Catalyst::
 
 Specify the paper with and height as an alternative to specifying the L</format>.
 
+These are in inches, as that is what L<WWW::Mechanize::Chrome> uses.
+
 =cut
 
 sub _build_pdf_options( $self, $c, $args ) {
 
     my %opts;
+
+    # TODO: access %WWW::Mechanize::Chrome::PaperFormats directly, and switch the width and height if the orientation is
+    # "Landscape" instead of "Portrait"
 
     if ( $args->{page_size} ) { # for compatability with Catalyst::View::Wkhtmltopdf
         $opts{format} = $args->{page_size};
