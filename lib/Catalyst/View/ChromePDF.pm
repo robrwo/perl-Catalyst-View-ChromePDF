@@ -13,7 +13,7 @@ use WWW::Mechanize::Chrome;
 
 use namespace::autoclean;
 
-use experimental qw( signatures );
+use experimental qw( signatures try );
 
 Log::Log4perl->easy_init($WARN);
 
@@ -99,7 +99,7 @@ sub render( $self, $c, $args ) {
 
     my $html;
     if ( defined $args->{template} ) {
-        $html = $c->view( $self->tt_view )->render( $c, $args->{template} ) or die;
+        $html = $c->view( $self->tt_view )->render( $c, $args->{template} );
     }
     else {
         $html = $args->{html};
@@ -121,43 +121,52 @@ sub render( $self, $c, $args ) {
         $self->chrome_args->%*
     );
 
-    my $res = $mech->get_local( $file->stringify );
+    try {
+        my $res = $mech->get_local( $file->stringify );
 
-    if ( $res->is_success ) {
+        if ( $res->is_success ) {
 
-        my $out = Path::Tiny->tempfile(
-            DIR    => $self->tmpdir,
-            SUFFIX => ".pdf",
-            UNLINK => 0,               # FIXME
-        );
+            my $out = Path::Tiny->tempfile(
+                DIR    => $self->tmpdir,
+                SUFFIX => ".pdf",
+                UNLINK => 0,
+            );
 
-        my $res;
+            my $res;
 
-        my %opts = $self->_build_pdf_options( $c, $args );
+            my %opts = $self->_build_pdf_options( $c, $args );
 
-        if ( $args->{send_filehandle} ) {
+            if ( $args->{send_filehandle} ) {
 
-            $c->log->debug("Saving the PDF to ${out}");
+                $c->log->debug("Saving the PDF to ${out}");
 
-            $mech->content_as_pdf( %opts, filename => $out->stringify );
-            $res = IO::File::WithPath->new( $out, '<:raw' );
+                $mech->content_as_pdf( %opts, filename => $out->stringify );
+                $res = IO::File::WithPath->new( $out, '<:raw' );
 
-        }
-        else {
+            }
+            else {
 
-            $res = $mech->content_as_pdf( %opts );
+                $res = $mech->content_as_pdf(%opts);
+
+            }
+
+            $mech->close unless $args->{mech};
+
+            return $res;
 
         }
 
         $mech->close unless $args->{mech};
 
-        return $res;
+    }
+    catch ($e) {
+
+        $c->log->error("$e");
+        $c->error("$e");
 
     }
 
-    $mech->close unless $args->{mech};
-
-    die "FIXME";
+    return 0;
 }
 
 =arg format
