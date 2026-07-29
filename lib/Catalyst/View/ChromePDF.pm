@@ -9,8 +9,8 @@ use File::Spec;
 use IO::File::WithPath;
 use Log::Log4perl ':easy';
 use MooseX::Aliases;
-use Path::Tiny;
-use Types::Common qw( Enum NonEmptySimpleStr );
+use Path::Tiny qw( path );
+use Types::Common qw( Enum HashRef InstanceOf NonEmptySimpleStr StrMatch );
 use WWW::Mechanize::Chrome;
 
 use namespace::autoclean;
@@ -25,12 +25,13 @@ Log::Log4perl->easy_init($WARN);
 
 has tmpdir => (
     is         => 'ro',
+    isa        => InstanceOf['Path::Tiny'],
     lazy_build => 1,
     builder    => '_build_tmpdir',
 );
 
 sub _build_tmpdir($self) {
-    return File::Spec->tmpdir;
+    return path( File::Spec->tmpdir )->mkdir
 }
 
 =attr tt_view
@@ -39,6 +40,7 @@ sub _build_tmpdir($self) {
 
 has tt_view => (
     is      => 'ro',
+    isa     => StrMatch[ qr/^[A-Z]\w*(::\w+)*$/a ],
     default => 'TT',
 );
 
@@ -52,7 +54,7 @@ Note: for L<Catalyst::View::Wkhtmltopdf> compatability, use "wk".
 
 has stash_key => (
     is      => 'ro',
-    lazy    => 1,
+    isa     => NonEmptySimpleStr,
     default => 'pdf',
 );
 
@@ -62,6 +64,7 @@ has stash_key => (
 
 has chrome_args => (
     is      => 'ro',
+    isa     => HashRef,
     default => sub($self) { {} },
 );
 
@@ -167,7 +170,7 @@ sub render( $self, $c, $args ) {
     die 'Void-input' unless defined $html;
 
     my $file = Path::Tiny->tempfile(
-        DIR    => $self->tmpdir,
+        DIR    => $self->tmpdir->stringify,
         SUFFIX => ".html",
         UNLINK => 1,
     );
