@@ -346,7 +346,7 @@ These are in inches, as that is what L<WWW::Mechanize::Chrome> uses.
 
 =cut
 
-sub _build_pdf_options( $self, $c, $args ) {
+sub _build_pdf_options( $self, $, $args ) {
 
     my $size = $PageSizes->assert_return( $args->{page_size} // $args->{format} // $self->format );
     my ( $width, $height ) = map { $WWW::Mechanize::Chrome::PaperFormats{$size}{$_} } qw( width height );
