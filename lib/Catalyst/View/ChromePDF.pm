@@ -406,6 +406,13 @@ __PACKAGE__->meta->make_immutable();
 
 =head1 SECURITY CONSIDERATIONS
 
+=head2 HTML
+
+It is assumed that the content of the rendered HTML that as saved as a PDF is controlled and trusted by the developer.
+
+The default configuration of L</mech> does not block C<file:> URLs.
+That is a feature, not a bug or oversight.
+
 =head2 Temporary Files
 
 Temporary HTML and PDF files are saved in L</tmpdir>.
