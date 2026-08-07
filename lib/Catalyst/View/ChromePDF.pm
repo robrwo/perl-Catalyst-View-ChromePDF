@@ -14,6 +14,9 @@ use Scalar::Util qw( blessed );
 use Types::Common qw( Enum HashRef InstanceOf NonEmptySimpleStr StrMatch );
 use WWW::Mechanize::Chrome;
 
+# RECOMMEND PREREQ: Catalyst::View::TT
+# RECOMMEND PREREQ: Type::Tiny::XS
+
 use namespace::autoclean;
 
 use experimental qw( signatures try );
