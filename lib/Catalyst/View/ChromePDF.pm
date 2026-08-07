@@ -22,6 +22,65 @@ our $VERSION = 'v0.1.0';
 
 Log::Log4perl->easy_init($WARN);
 
+# ABSTRACT: convert HTML (or TT) content to PDF using Chrome
+
+=begin :prelude
+
+=for stopwords wkhtmltopdf
+
+=end :prelude
+
+=head1 SYNOPSIS
+
+In your application, create a view, e.g. F<lib/MyApp/View/ChromePDF.pm>:
+
+    package MyApp::View::ChromePDF;
+
+    use Moose;
+    extends 'Catalyst::View::ChromePDF';
+
+    __PACKAGE__->meta->make_immutable();
+
+In the application, e.g. F<lib/MyApp.pm> specify the L</CONFIGURATION>:
+
+    __PACKAGE__->config(
+
+        # Configure Template-Toolkit
+
+        'View::TT' => {
+            INCLUDE_PATH       => [ __PACKAGE__->path_to('root'), ],
+            ENCODING           => 'utf-8',
+            TIMER              => 0,
+            TEMPLATE_EXTENSION => '.tt',
+            ABSOLUTE           => 1,
+            render_die         => 1
+        },
+
+        # Configure View::ChromePDF
+
+        'View::ChromePDF' => {
+            stash_key => 'pdf',
+            page_size => 'a4',
+        },
+
+    );
+
+In a controller method, specify L</PARAMETERS>:
+
+    $c->stash->{pdf} = {
+      template  => 'base.tt',
+      page_size => 'a5',      # override default
+    };
+
+    $c->forward('View::ChromePDF');
+
+=head1 DESCRIPTION
+
+This is a L<Catalyst> view for rendering web pages of PDFs using Chrome or a Chrome-compatible browser with
+L<WWW::Mechanize::Chrome>.
+
+It is intended as a successor to L<Catalyst::View::Wkhtmltopdf>.
+
 =attr tmpdir
 
 This is the temporary directory.
@@ -352,5 +411,25 @@ They may be left in the directory on failure.
 When returning a filehandle instead of the PDF content, the PDF files are not removed when L</send_filehandle> is true.
 
 A separate process will need to purge files, to prevent them from filling the disk, as well as to remove sensitive information.
+
+=head1 append:AUTHOR
+
+The initial development of this module was sponsored in part by Science Photo Library L<https://www.sciencephoto.com>.
+
+=head1 prepend:SUPPORT
+
+Only the latest version of this module will be supported.
+
+This module requires Perl v5.24 or later.
+Future releases may only support Perl versions released in the last ten (10) years.
+
+=head2 Reporting Bugs and Submitting Feature Requests
+
+=head1 append:SUPPORT
+
+=head2 Reporting Security Vulnerabilities
+
+Security issues should not be reported on the bugtracker website.
+Please see F<SECURITY.md> for instructions how to report security vulnerabilities
 
 =cut
