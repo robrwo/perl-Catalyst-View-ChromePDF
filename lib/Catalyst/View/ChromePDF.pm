@@ -170,6 +170,8 @@ sub process( $self, $c ) {
 
 =arg template
 
+This this is not specified, then it will default to using C<$c->stash->{template}>.
+
 =arg html
 
 This is the raw HTML to render, if no L</template> is specified.
@@ -189,8 +191,9 @@ If omitted, a new instance will be created and then closed, usinbg the L</chrome
 sub render( $self, $c, $args ) {
 
     my $html;
-    if ( defined $args->{template} ) {
-        $html = $c->view( $self->tt_view )->render( $c, $args->{template} );
+    my $template = $args->{template} // $c->stash->{template};
+    if ( defined $template ) {
+        $html = $c->view( $self->tt_view )->render( $c, $template );
     }
     else {
         $html = $args->{html} // $c->res->body;
