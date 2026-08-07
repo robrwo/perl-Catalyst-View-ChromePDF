@@ -29,7 +29,7 @@ Log::Log4perl->easy_init($WARN);
 
 =begin :prelude
 
-=for stopwords wkhtmltopdf
+=for stopwords PDFs TT compatability html mech pdf tmpdir wkhtmltopdf
 
 =end :prelude
 
@@ -182,7 +182,7 @@ has orientation => (
 
 =attr disposition
 
-This is the download dispostion. It defaults to "inline".
+This is the download disposition. It defaults to "inline".
 
 Acceptable values are "inline" or "attachment".
 
@@ -390,7 +390,7 @@ C<orientation> must be lowercase, e.g. "portrait" instead of "Portrait".
 
 =item *
 
-L</stash_key> has a differemt default.
+L</stash_key> has a different default.
 
 =item *
 
