@@ -182,7 +182,7 @@ Otherwise, it will render the L<Catalyst::Response> body.
 
 This is a L<WWW::Mechanize::Chrome> instance.
 
-If omitted, a new instance will be created and then closed, usinbg the L</chrome_args>.
+If omitted, a new instance will be created and then closed, using the L</chrome_args>.
 
 =arg send_filehandle
 
