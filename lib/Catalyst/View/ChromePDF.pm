@@ -10,6 +10,7 @@ use IO::File::WithPath;
 use Log::Log4perl ':easy';
 use MooseX::Aliases;
 use Path::Tiny qw( path );
+use Scalar::Util qw( blessed );
 use Types::Common qw( Enum HashRef InstanceOf NonEmptySimpleStr StrMatch );
 use WWW::Mechanize::Chrome;
 
@@ -171,6 +172,10 @@ sub process( $self, $c ) {
 
 =arg html
 
+This is the raw HTML to render, if no L</template> is specified.
+
+Otherwise, it will render the L<Catalyst::Response> body.
+
 =arg mech
 
 This is a L<WWW::Mechanize::Chrome> instance.
@@ -188,7 +193,10 @@ sub render( $self, $c, $args ) {
         $html = $c->view( $self->tt_view )->render( $c, $args->{template} );
     }
     else {
-        $html = $args->{html};
+        $html = $args->{html} // $c->res->body;
+        if ( blessed($html) && $html->isa("IO::File") ) {
+            die "Filehandles are not supported";
+        }
     }
     die 'Void-input' unless defined $html;
 
