@@ -18,6 +18,8 @@ use namespace::autoclean;
 
 use experimental qw( signatures try );
 
+our $VERSION = 'v0.1.0';
+
 Log::Log4perl->easy_init($WARN);
 
 =attr tmpdir
