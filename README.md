@@ -66,6 +66,8 @@ Changes for version v0.1.1 (2026-08-08)
 - Documentation
     - Updated SECURITY CONSIDERATIONS to emphasise that the content of the rendered is assumed to be trusted by the developer.
     - Fixed typos.
+- Tests
+    - Skip tests if no chrome executable can be found.
 
 See the `Changes` file for more details.
 

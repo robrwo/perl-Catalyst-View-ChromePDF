@@ -6,5 +6,8 @@ Revision history for {{ $dist->name }}:
 
   - Fixed typos.
 
+  [Tests]
+  - Skip tests if no chrome executable can be found.
+
 v0.1.0    2026-08-07 12:21:28+01:00 Europe/London
   - Initial version released.
