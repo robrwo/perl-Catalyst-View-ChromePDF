@@ -29,7 +29,7 @@ Log::Log4perl->easy_init($WARN);
 
 =begin :prelude
 
-=for stopwords PDFs TT compatability html mech pdf tmpdir wkhtmltopdf
+=for stopwords PDFs TT html mech pdf tmpdir wkhtmltopdf
 
 =end :prelude
 
@@ -121,7 +121,7 @@ has tt_view => (
 
 It defaults to "pdf".
 
-Note: for L<Catalyst::View::Wkhtmltopdf> compatability, use "wk".
+Note: for L<Catalyst::View::Wkhtmltopdf> compatibility, use "wk".
 
 =cut
 
@@ -151,7 +151,7 @@ This is the paper format. It defaults to C<undef>.
 
 =attr page_size
 
-This is an alias for L</format>, for compatability with L<Catalyst::View::Wkhtmltopdf>.
+This is an alias for L</format>, for compatibility with L<Catalyst::View::Wkhtmltopdf>.
 
 =cut
 
@@ -332,7 +332,7 @@ This is the format or paper size.
 
 =arg page_size
 
-This is the same as C<format>, but is added for compatability with L<Catalyst::View::Wkhtmltopodf>.
+This is the same as C<format>, but is added for compatibility with L<Catalyst::View::Wkhtmltopodf>.
 
 =arg paper_width
 
@@ -364,7 +364,7 @@ sub _build_pdf_options( $self, $, $args ) {
     return %opts;
 }
 
-=head1 COMPATABILITY
+=head1 COMPATIBILITY
 
 =head2 Differences from Catalyst::View::Wkhtmltopdf
 

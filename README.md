@@ -61,10 +61,11 @@ It is intended as a successor to [Catalyst::View::Wkhtmltopdf](https://metacpan.
 
 # RECENT CHANGES
 
-Changes for version v0.1.1 (2026-08-07)
+Changes for version v0.1.1 (2026-08-08)
 
 - Documentation
     - Updated SECURITY CONSIDERATIONS to emphasise that the content of the rendered is assumed to be trusted by the developer.
+    - Fixed typos.
 
 See the `Changes` file for more details.
 
