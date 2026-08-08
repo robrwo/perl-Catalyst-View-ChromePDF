@@ -1,3 +1,4 @@
 Catalyst-View-ChromePDF-*/
 Catalyst-View-ChromePDF-*.tar.gz
 .build/
+*.sigstore.json
