@@ -21,7 +21,7 @@ use namespace::autoclean;
 
 use experimental qw( signatures try );
 
-our $VERSION = 'v0.1.1';
+our $VERSION = 'v0.1.2';
 
 Log::Log4perl->easy_init($WARN);
 

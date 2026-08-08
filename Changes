@@ -1,6 +1,8 @@
 Revision history for {{ $dist->name }}:
 
 {{$NEXT}}
+
+v0.1.1    2026-08-08 12:23:52+01:00 Europe/London
   [Documentation]
   - Updated SECURITY CONSIDERATIONS to emphasise that the content of the rendered is assumed to be trusted by the developer.
 
