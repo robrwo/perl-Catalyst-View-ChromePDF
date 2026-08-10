@@ -22,7 +22,7 @@ use namespace::autoclean;
 
 use experimental qw( signatures );
 
-our $VERSION = 'v0.1.3';
+our $VERSION = 'v0.1.4';
 
 # ABSTRACT: convert HTML (or TT) content to PDF using Chrome
 
