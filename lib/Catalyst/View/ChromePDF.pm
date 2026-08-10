@@ -249,6 +249,10 @@ If omitted, a new instance will be created and then closed, using the L</chrome_
 
 =arg send_filehandle
 
+When true, send the filehandle instead of the PDF content.
+
+Note that this may result in files left in L</tmpdir> that will need to be purged by a separate process.
+
 =arg wait
 
 When this is non-zero, then it will scroll to the bottom and wait this number of seconds for the content to load.
