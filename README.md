@@ -61,10 +61,10 @@ It is intended as a successor to [Catalyst::View::Wkhtmltopdf](https://metacpan.
 
 # RECENT CHANGES
 
-Changes for version v0.1.2 (2026-08-10)
+Changes for version v0.1.3 (2026-08-10)
 
 - Bug Fixes
-    - Use Try::Tiny for Perls without the try feature.
+    - Fixed bug with setting tmpdir from the configuration.
 
 See the `Changes` file for more details.
 

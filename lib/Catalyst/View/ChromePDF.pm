@@ -12,7 +12,7 @@ use MooseX::Aliases;
 use Path::Tiny qw( path );
 use Scalar::Util qw( blessed );
 use Try::Tiny;
-use Types::Common qw( Enum HashRef InstanceOf NonEmptySimpleStr StrMatch );
+use Types::Common qw( Enum HashRef NonEmptySimpleStr StrMatch );
 use WWW::Mechanize::Chrome;
 
 # RECOMMEND PREREQ: Catalyst::View::TT
@@ -97,13 +97,13 @@ See L</SECURITY CONSIDERATIONS> below.
 
 has tmpdir => (
     is         => 'ro',
-    isa        => InstanceOf['Path::Tiny'],
+    isa        => NonEmptySimpleStr,
     lazy_build => 1,
     builder    => '_build_tmpdir',
 );
 
 sub _build_tmpdir($self) {
-    return path( File::Spec->tmpdir )->mkdir
+    return File::Spec->tmpdir;
 }
 
 =attr tt_view
@@ -269,7 +269,7 @@ sub render( $self, $c, $args ) {
     die 'Void-input' unless defined $html;
 
     my $file = Path::Tiny->tempfile(
-        DIR    => $self->tmpdir->stringify,
+        DIR    => $self->tmpdir,
         SUFFIX => ".html",
         UNLINK => 1,
     );
