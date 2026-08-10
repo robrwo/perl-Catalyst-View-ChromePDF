@@ -13,6 +13,7 @@ use Path::Tiny qw( path );
 use Scalar::Util qw( blessed );
 use Try::Tiny;
 use Types::Common qw( Enum HashRef NonEmptySimpleStr StrMatch );
+use URI::Escape qw( uri_escape_utf8 );
 use WWW::Mechanize::Chrome;
 
 # RECOMMEND PREREQ: Catalyst::View::TT
@@ -221,7 +222,7 @@ sub process( $self, $c ) {
     $c->res->body( $self->render( $c, $args // { } ) );
 
     my $disposition = $Dispositions->assert_return( $args->{disposition} // $self->disposition );
-    my $filename    = $args->{filename} // $self->filename;
+    my $filename    = uri_escape_utf8( $args->{filename} // $self->filename );
 
     $c->res->header(
         "Content-Disposition" => "${disposition}; filename*=UTF-8''${filename}",

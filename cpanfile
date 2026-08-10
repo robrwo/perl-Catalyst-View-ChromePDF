@@ -11,6 +11,7 @@ requires "Path::Tiny" => "0";
 requires "Scalar::Util" => "0";
 requires "Try::Tiny" => "0";
 requires "Types::Common" => "0";
+requires "URI::Escape" => "0";
 requires "WWW::Mechanize::Chrome" => "0";
 requires "experimental" => "0";
 requires "namespace::autoclean" => "0";

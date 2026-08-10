@@ -65,6 +65,7 @@ Changes for version v0.1.3 (2026-08-10)
 
 - Bug Fixes
     - Fixed bug with setting tmpdir from the configuration.
+    - Fixed filename encoding.
 
 See the `Changes` file for more details.
 
@@ -82,6 +83,7 @@ This module lists the following modules as runtime dependencies:
 - [Scalar::Util](https://metacpan.org/pod/Scalar%3A%3AUtil)
 - [Try::Tiny](https://metacpan.org/pod/Try%3A%3ATiny)
 - [Types::Common](https://metacpan.org/pod/Types%3A%3ACommon)
+- [URI::Escape](https://metacpan.org/pod/URI%3A%3AEscape)
 - [WWW::Mechanize::Chrome](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AChrome)
 - [experimental](https://metacpan.org/pod/experimental)
 - [namespace::autoclean](https://metacpan.org/pod/namespace%3A%3Aautoclean)
