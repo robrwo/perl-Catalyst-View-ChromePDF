@@ -292,7 +292,7 @@ sub render( $self, $c, $args ) {
                 UNLINK => 0,
             );
 
-            my $res;
+            my $ret;
 
             my %opts = $self->_build_pdf_options( $c, $args );
 
@@ -301,12 +301,12 @@ sub render( $self, $c, $args ) {
                 $c->log->debug("Saving the PDF to ${out}");
 
                 $mech->content_as_pdf( %opts, filename => $out->stringify );
-                $res = IO::File::WithPath->new( $out, '<:raw' );
+                $ret = IO::File::WithPath->new( $out, '<:raw' );
 
             }
             else {
 
-                $res = $mech->content_as_pdf(%opts);
+                $ret = $mech->content_as_pdf(%opts);
 
             }
 
