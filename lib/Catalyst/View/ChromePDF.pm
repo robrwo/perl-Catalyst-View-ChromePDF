@@ -310,7 +310,7 @@ sub render( $self, $c, $args ) {
 
             }
 
-            return $res;
+            return $ret;
 
         }
         else {
