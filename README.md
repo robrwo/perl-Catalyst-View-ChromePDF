@@ -63,6 +63,8 @@ It is intended as a successor to [Catalyst::View::Wkhtmltopdf](https://metacpan.
 
 Changes for version v0.1.3 (2026-08-10)
 
+- Enhancements
+    - Added a wait attribute for specifying a wait time for content to load.
 - Bug Fixes
     - Fixed bug with setting tmpdir from the configuration.
     - Fixed filename encoding.

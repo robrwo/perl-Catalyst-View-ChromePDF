@@ -1,6 +1,9 @@
 Revision history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Enhancements]
+  - Added a wait attribute for specifying a wait time for content to load.
+
   [Bug Fixes]
   - Fixed bug with setting tmpdir from the configuration.
 

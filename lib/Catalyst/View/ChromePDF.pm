@@ -11,7 +11,7 @@ use MooseX::Aliases;
 use Path::Tiny qw( path );
 use Scalar::Util qw( blessed );
 use Try::Tiny;
-use Types::Common qw( Enum HashRef NonEmptySimpleStr StrMatch );
+use Types::Common qw( Enum HashRef NonEmptySimpleStr PositiveOrZeroInt StrMatch );
 use URI::Escape qw( uri_escape_utf8 );
 use WWW::Mechanize::Chrome;
 
@@ -249,6 +249,10 @@ If omitted, a new instance will be created and then closed, using the L</chrome_
 
 =arg send_filehandle
 
+=arg wait
+
+When this is non-zero, then it will scroll to the bottom and wait this number of seconds for the content to load.
+
 =cut
 
 sub render( $self, $c, $args ) {
@@ -275,6 +279,8 @@ sub render( $self, $c, $args ) {
     $c->log->debug("Saving the HTML to ${file}");
     $file->spew_raw($html);
 
+    my $wait = PositiveOrZeroInt->assert_return( $args->{wait} // 0 );
+
     my $mech = $args->{mech} // WWW::Mechanize::Chrome->new(
         headless         => 1,
         separate_session => 1,
@@ -283,6 +289,8 @@ sub render( $self, $c, $args ) {
 
     return try {
         my $res = $mech->get_local( $file->stringify );
+
+        $mech->infinite_scroll($wait) if $wait;
 
         if ( $res->is_success ) {
 
