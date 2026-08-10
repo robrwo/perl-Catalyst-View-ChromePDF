@@ -7,7 +7,6 @@ extends 'Catalyst::View';
 
 use File::Spec;
 use IO::File::WithPath;
-use Log::Log4perl ':easy';
 use MooseX::Aliases;
 use Path::Tiny qw( path );
 use Scalar::Util qw( blessed );
@@ -24,8 +23,6 @@ use namespace::autoclean;
 use experimental qw( signatures );
 
 our $VERSION = 'v0.1.3';
-
-Log::Log4perl->easy_init($WARN);
 
 # ABSTRACT: convert HTML (or TT) content to PDF using Chrome
 

@@ -4,7 +4,6 @@
 requires "Catalyst::View" => "0";
 requires "File::Spec" => "0";
 requires "IO::File::WithPath" => "0";
-requires "Log::Log4perl" => "0";
 requires "Moose" => "0";
 requires "MooseX::Aliases" => "0";
 requires "Path::Tiny" => "0";
@@ -37,6 +36,7 @@ on 'test' => sub {
   requires "HTTP::Status" => "0";
   requires "IO::Handle" => "0";
   requires "IPC::Open3" => "0";
+  requires "Log::Log4perl" => "0";
   requires "Module::Metadata" => "0";
   requires "Test::Deep" => "0";
   requires "Test::Log::Dispatch" => "0";

@@ -66,6 +66,7 @@ Changes for version v0.1.3 (2026-08-10)
 - Bug Fixes
     - Fixed bug with setting tmpdir from the configuration.
     - Fixed filename encoding.
+    - Removed use of Log::Log4perl.
 
 See the `Changes` file for more details.
 
@@ -76,7 +77,6 @@ This module lists the following modules as runtime dependencies:
 - [Catalyst::View](https://metacpan.org/pod/Catalyst%3A%3AView)
 - [File::Spec](https://metacpan.org/pod/File%3A%3ASpec)
 - [IO::File::WithPath](https://metacpan.org/pod/IO%3A%3AFile%3A%3AWithPath)
-- [Log::Log4perl](https://metacpan.org/pod/Log%3A%3ALog4perl)
 - [Moose](https://metacpan.org/pod/Moose)
 - [MooseX::Aliases](https://metacpan.org/pod/MooseX%3A%3AAliases)
 - [Path::Tiny](https://metacpan.org/pod/Path%3A%3ATiny)
