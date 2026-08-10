@@ -313,6 +313,12 @@ sub render( $self, $c, $args ) {
             return $res;
 
         }
+        else {
+
+            die "Unknown error: HTTP " . $res->code;
+
+        }
+
 
     }
     catch {
