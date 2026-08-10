@@ -257,6 +257,8 @@ Note that this may result in files left in L</tmpdir> that will need to be purge
 
 When this is non-zero, then it will scroll to the bottom and wait this number of seconds for the content to load.
 
+This was added in version v0.1.3.
+
 =cut
 
 sub render( $self, $c, $args ) {
