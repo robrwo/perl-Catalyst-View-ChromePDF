@@ -1,6 +1,8 @@
 Revision history for {{ $dist->name }}:
 
 {{$NEXT}}
+
+v0.1.2    2026-08-10 08:44:25+01:00 Europe/London
   [Bug Fixes]
   - Use Try::Tiny for Perls without the try feature.
 

@@ -22,7 +22,7 @@ use namespace::autoclean;
 
 use experimental qw( signatures );
 
-our $VERSION = 'v0.1.2';
+our $VERSION = 'v0.1.3';
 
 Log::Log4perl->easy_init($WARN);
 
