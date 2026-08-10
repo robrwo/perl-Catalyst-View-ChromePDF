@@ -289,7 +289,7 @@ sub render( $self, $c, $args ) {
             my $out = Path::Tiny->tempfile(
                 DIR    => $self->tmpdir,
                 SUFFIX => ".pdf",
-                UNLINK => 0,
+                UNLINK => 1,
             );
 
             my $ret;
