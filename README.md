@@ -65,6 +65,7 @@ Changes for version v0.1.4 (2026-08-11)
 
 - Documentation
     - Updated SECURITY CONSIDERATIONS to emphasise that the parameters assumed to controlled by the developer.
+    - Added missing documentation.
 
 See the `Changes` file for more details.
 

@@ -4,6 +4,8 @@ Revision history for {{ $dist->name }}:
   [Documentation]
   - Updated SECURITY CONSIDERATIONS to emphasise that the parameters assumed to controlled by the developer.
 
+  - Added missing documentation.
+
 v0.1.3    2026-08-10 17:44:23+01:00 Europe/London
   [Enhancements]
   - Added a wait attribute for specifying a wait time for content to load.

@@ -364,6 +364,8 @@ These are in inches, as that is what L<WWW::Mechanize::Chrome> uses.
 
 =arg orientation
 
+The is the orientation..
+
 =cut
 
 sub _build_pdf_options( $self, $, $args ) {
