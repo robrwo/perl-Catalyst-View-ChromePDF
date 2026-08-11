@@ -63,6 +63,9 @@ It is intended as a successor to [Catalyst::View::Wkhtmltopdf](https://metacpan.
 
 Changes for version v0.1.4 (2026-08-11)
 
+- Enhancements
+    - The WWW::Mechanize::Chrome instance is instantiated with the class.
+    - The chrome\_args attribute includes default settings that can be overridden.
 - Documentation
     - Updated SECURITY CONSIDERATIONS to emphasise that the parameters assumed to controlled by the developer.
     - Added missing documentation.

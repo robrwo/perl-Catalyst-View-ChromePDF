@@ -11,7 +11,7 @@ use MooseX::Aliases;
 use Path::Tiny qw( path );
 use Scalar::Util qw( blessed );
 use Try::Tiny;
-use Types::Common qw( Enum HashRef NonEmptySimpleStr PositiveOrZeroInt StrMatch );
+use Types::Common qw( Enum HashRef InstanceOf NonEmptySimpleStr PositiveOrZeroInt StrMatch );
 use URI::Escape qw( uri_escape_utf8 );
 use WWW::Mechanize::Chrome;
 
@@ -141,7 +141,12 @@ This will be ignored if a separate L</mech> argument is passed in the stash.
 has chrome_args => (
     is      => 'ro',
     isa     => HashRef,
-    default => sub($self) { {} },
+    default => sub($self) {
+        {
+            headless         => 1,
+            separate_session => 1,
+        }
+    },
 );
 
 =attr format
@@ -207,6 +212,22 @@ has 'filename' => (
     default => 'output.pdf',
 );
 
+=attr mech
+
+This is a L<WWW::Mechanize::Chrome> instance, initialised with the L</chrome_args>.
+
+=cut
+
+has mech => (
+    is      => 'ro',
+    isa     => InstanceOf ['WWW::Mechanize::Chrome'],
+    builder => '_build_mech',
+);
+
+sub _build_mech($self) {
+    return WWW::Mechanize::Chrome->new( $self->chrome_args->%* );
+}
+
 =method process
 
 
@@ -245,7 +266,7 @@ Otherwise, it will render the L<Catalyst::Response> body.
 
 This is a L<WWW::Mechanize::Chrome> instance.
 
-If omitted, a new instance will be created and then closed, using the L</chrome_args>.
+If omitted, the main L</mech> instance will be used.
 
 =arg send_filehandle
 
@@ -287,11 +308,7 @@ sub render( $self, $c, $args ) {
 
     my $wait = PositiveOrZeroInt->assert_return( $args->{wait} // 0 );
 
-    my $mech = $args->{mech} // WWW::Mechanize::Chrome->new(
-        headless         => 1,
-        separate_session => 1,
-        $self->chrome_args->%*
-    );
+    my $mech = $args->{mech} // $self->mech;
 
     return try {
         my $res = $mech->get_local( $file->stringify );
@@ -425,6 +442,10 @@ Some of these options may be added in the future.
 =cut
 
 __PACKAGE__->meta->make_immutable();
+
+=head1 KNOWN ISSUES
+
+When the application is shut down, this may trigger errors in the L</mech> object if it has not been properly closed.
 
 =head1 SECURITY CONSIDERATIONS
 

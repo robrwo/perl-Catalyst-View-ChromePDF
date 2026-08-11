@@ -1,6 +1,11 @@
 Revision history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Enhancements]
+  - The WWW::Mechanize::Chrome instance is instantiated with the class.
+
+  - The chrome_args attribute includes default settings that can be overridden.
+
   [Documentation]
   - Updated SECURITY CONSIDERATIONS to emphasise that the parameters assumed to controlled by the developer.
 
