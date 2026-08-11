@@ -426,6 +426,12 @@ __PACKAGE__->meta->make_immutable();
 
 =head1 SECURITY CONSIDERATIONS
 
+=head2 Parameters
+
+It is assumed that the L</PARAMETERS> are controlled by the developer.
+
+If you allow a web user to select parameters, then you I<must> validate them.
+
 =head2 HTML
 
 It is assumed that the content of the rendered HTML that as saved as a PDF is controlled and trusted by the developer.

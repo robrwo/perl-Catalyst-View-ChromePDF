@@ -61,17 +61,10 @@ It is intended as a successor to [Catalyst::View::Wkhtmltopdf](https://metacpan.
 
 # RECENT CHANGES
 
-Changes for version v0.1.3 (2026-08-10)
+Changes for version v0.1.4 (2026-08-11)
 
-- Enhancements
-    - Added a wait attribute for specifying a wait time for content to load.
-- Bug Fixes
-    - Fixed bug with setting tmpdir from the configuration.
-    - Fixed filename encoding.
-    - Removed use of Log::Log4perl.
-    - Catch Chrome errors.
 - Documentation
-    - Added missing documentation.
+    - Updated SECURITY CONSIDERATIONS to emphasise that the parameters assumed to controlled by the developer.
 
 See the `Changes` file for more details.
 
@@ -130,6 +123,12 @@ dzil install --install-command="cpan ."
 For more information, see [How to install CPAN modules](https://www.cpan.org/modules/INSTALL.html).
 
 # SECURITY CONSIDERATIONS
+
+## Parameters
+
+It is assumed that the ["PARAMETERS"](#parameters) are controlled by the developer.
+
+If you allow a web user to select parameters, then you _must_ validate them.
 
 ## HTML
 

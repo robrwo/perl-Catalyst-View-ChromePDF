@@ -1,6 +1,8 @@
 Revision history for {{ $dist->name }}:
 
 {{$NEXT}}
+  [Documentation]
+  - Updated SECURITY CONSIDERATIONS to emphasise that the parameters assumed to controlled by the developer.
 
 v0.1.3    2026-08-10 17:44:23+01:00 Europe/London
   [Enhancements]
